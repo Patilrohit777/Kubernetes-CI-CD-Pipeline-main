@@ -1,85 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SIP & Lumpsum Calculator</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8" />
+  <title>Financial Calculators</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-<div class="container">
+<h1 class="title">Financial Calculators</h1>
 
-<h1>SIP & Lumpsum Calculator</h1>
+<div class="grid">
 
-<div class="card">
+  <!-- Card -->
+  <div class="card">
+    <h3>Lumpsum Calculator</h3>
+    <p>Calculate future value of one-time investment</p>
+    <button onclick="openCalc('lumpsum')">Launch Calculator</button>
+  </div>
 
-<div class="tabs">
-<button id="sipTab" class="active">SIP</button>
-<button id="lumpTab">Lumpsum</button>
+  <div class="card">
+    <h3>SIP Calculator</h3>
+    <p>Calculate wealth with monthly investment</p>
+    <button onclick="openCalc('sip')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>EMI Calculator</h3>
+    <p>Calculate loan EMI</p>
+    <button onclick="openCalc('emi')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Goal Planning - Lumpsum</h3>
+    <button onclick="openCalc('goalLumpsum')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Goal Planning - SIP</h3>
+    <button onclick="openCalc('goalSip')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>PPF Calculator</h3>
+    <button onclick="openCalc('ppf')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>CAGR Calculator</h3>
+    <button onclick="openCalc('cagr')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Step-Up SIP Calculator</h3>
+    <button onclick="openCalc('stepSip')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Time Duration (One-time)</h3>
+    <button onclick="openCalc('timeOne')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Time Duration (Regular)</h3>
+    <button onclick="openCalc('timeRegular')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Retirement Planning</h3>
+    <button onclick="openCalc('retirement')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Stock vs FD</h3>
+    <button onclick="openCalc('compare')">Launch Calculator</button>
+  </div>
+
+  <div class="card">
+    <h3>Investment Planner</h3>
+    <button onclick="openCalc('planner')">Launch Calculator</button>
+  </div>
+
 </div>
 
-<div id="sipForm">
-
-<div class="form-group">
-<label>Monthly Investment (₹)</label>
-<input type="number" id="sipAmount" value="5000">
+<!-- Calculator Modal -->
+<div id="calculatorModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCalc()">&times;</span>
+    <div id="calculatorContent"></div>
+  </div>
 </div>
 
-<div class="form-group">
-<label>Expected Return (% yearly)</label>
-<input type="number" id="sipRate" value="12">
-</div>
-
-<div class="form-group">
-<label>Time Period (Years)</label>
-<input type="number" id="sipYears" value="10">
-</div>
-
-<button class="calculate" onclick="calculateSIP()">Calculate SIP</button>
-
-</div>
-
-<div id="lumpForm" style="display:none;">
-
-<div class="form-group">
-<label>Investment Amount (₹)</label>
-<input type="number" id="lumpAmount" value="100000">
-</div>
-
-<div class="form-group">
-<label>Expected Return (% yearly)</label>
-<input type="number" id="lumpRate" value="12">
-</div>
-
-<div class="form-group">
-<label>Time Period (Years)</label>
-<input type="number" id="lumpYears" value="10">
-</div>
-
-<button class="calculate" onclick="calculateLumpsum()">Calculate Lumpsum</button>
-
-</div>
-
-<div class="result" id="resultBox" style="display:none;">
-
-<h2>Result</h2>
-
-<p id="invested"></p>
-<p id="returns"></p>
-<p><strong id="total"></strong></p>
-
-</div>
-
-</div>
-</div>
-
-<script src="app.js" defer></script>
-
+<script src="script.js"></script>
 </body>
 </html>
