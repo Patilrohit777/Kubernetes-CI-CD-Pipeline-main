@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SIP & Lumpsum Calculator</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>SIP & Lumpsum Calculator</h1>
+
+<div class="card">
+
+<div class="tabs">
+<button id="sipTab" class="active">SIP</button>
+<button id="lumpTab">Lumpsum</button>
+</div>
+
+<div id="sipForm">
+
+<div class="form-group">
+<label>Monthly Investment (₹)</label>
+<input type="number" id="sipAmount" value="5000">
+</div>
+
+<div class="form-group">
+<label>Expected Return (% yearly)</label>
+<input type="number" id="sipRate" value="12">
+</div>
+
+<div class="form-group">
+<label>Time Period (Years)</label>
+<input type="number" id="sipYears" value="10">
+</div>
+
+<button class="calculate" onclick="calculateSIP()">Calculate SIP</button>
+
+</div>
+
+<div id="lumpForm" style="display:none;">
+
+<div class="form-group">
+<label>Investment Amount (₹)</label>
+<input type="number" id="lumpAmount" value="100000">
+</div>
+
+<div class="form-group">
+<label>Expected Return (% yearly)</label>
+<input type="number" id="lumpRate" value="12">
+</div>
+
+<div class="form-group">
+<label>Time Period (Years)</label>
+<input type="number" id="lumpYears" value="10">
+</div>
+
+<button class="calculate" onclick="calculateLumpsum()">Calculate Lumpsum</button>
+
+</div>
+
+<div class="result" id="resultBox" style="display:none;">
+
+<h2>Result</h2>
+
+<p id="invested"></p>
+<p id="returns"></p>
+<p><strong id="total"></strong></p>
+
+</div>
+
+</div>
+</div>
+
+<script src="app.js" defer></script>
+
+</body>
+</html>

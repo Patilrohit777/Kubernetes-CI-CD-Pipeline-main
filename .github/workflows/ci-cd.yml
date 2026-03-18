@@ -1,0 +1,54 @@
+name: Deploy SIP Calculator with Kind
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest   # workflow runs on GitHub runner, but will SSH into EC2
+
+    steps:
+
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: SSH into EC2 and deploy
+      - name: Deploy to EC2 with Docker & Kind
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd /home/ec2-user/Kubernetes-CI-CD-Pipeline-main
+
+            echo "===== CLEAN SYNC CODE ====="
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "===== FIX PERMISSIONS (SAFE) ====="
+            sudo chown -R ec2-user:ec2-user .
+
+            echo "===== DOCKER DEPLOY ====="
+            docker stop Kubernetes-CI-CD-Pipeline-main || true
+            docker rm Kubernetes-CI-CD-Pipeline-main || true
+            docker build -t Kubernetes-CI-CD-Pipeline-main .
+            docker run -d -p 80:80 --name Kubernetes-CI-CD-Pipeline-main Kubernetes-CI-CD-Pipeline-main
+
+            echo "===== KIND / K8S DEPLOY ====="
+            # Load Docker image into Kind cluster
+            kind load docker-image Kubernetes-CI-CD-Pipeline-main
+
+            # Apply Kubernetes manifests
+            kubectl apply -f k8s/deployment.yaml
+            kubectl apply -f k8s/service.yaml
+
+            echo "===== VERIFY K8S ====="
+            kubectl get pods
+            kubectl get svc
+
+            echo "===== RUNNING DOCKER CONTAINERS ====="
+            docker ps
