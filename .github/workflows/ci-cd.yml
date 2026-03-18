@@ -23,7 +23,11 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
+<<<<<<< HEAD
             cd /home/ec2-user/Kubernetes-CI-CD-Pipeline-main
+=======
+            cd /home/ec2-user/sip_calculator_app
+>>>>>>> c82958ddac0a96eb264a59408f3029654e5d08a1
 
             echo "===== CLEAN SYNC CODE ====="
             git fetch --all
@@ -33,6 +37,7 @@ jobs:
             sudo chown -R ec2-user:ec2-user .
 
             echo "===== DOCKER DEPLOY ====="
+<<<<<<< HEAD
             docker stop Kubernetes-CI-CD-Pipeline-main || true
             docker rm Kubernetes-CI-CD-Pipeline-main || true
             docker build -t Kubernetes-CI-CD-Pipeline-main .
@@ -41,6 +46,16 @@ jobs:
             echo "===== KIND / K8S DEPLOY ====="
             # Load Docker image into Kind cluster
             kind load docker-image Kubernetes-CI-CD-Pipeline-main
+=======
+            docker stop sip_calculator_app || true
+            docker rm sip_calculator_app || true
+            docker build -t sip_calculator_app .
+            docker run -d -p 80:80 --name sip_calculator_app sip_calculator_app
+
+            echo "===== KIND / K8S DEPLOY ====="
+            # Load Docker image into Kind cluster
+            kind load docker-image sip_calculator_app
+>>>>>>> c82958ddac0a96eb264a59408f3029654e5d08a1
 
             # Apply Kubernetes manifests
             kubectl apply -f k8s/deployment.yaml
