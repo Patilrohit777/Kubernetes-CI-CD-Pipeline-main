@@ -40,7 +40,7 @@ jobs:
             kubectl apply -f k8s/
 
             echo "===== WAIT FOR ROLLOUT ====="
-            kubectl rollout status deployment/sip-calculator
+            kubectl rollout status deployment/kubernetes-ci-cd-pipeline-main
 
             echo "===== VERIFY ====="
             kubectl get pods
