@@ -1,4 +1,4 @@
-name: Deploy SIP Calculator with Kind
+name: Deploy SIP Calculator with Kind (Zero Downtime)
 
 on:
   push:
@@ -7,50 +7,41 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest   # workflow runs on GitHub runner, but will SSH into EC2
+    runs-on: ubuntu-latest
 
     steps:
 
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: SSH into EC2 and deploy
-      - name: Deploy to EC2 with Docker & Kind
+      - name: Deploy to EC2 (Docker + Kind + K8s)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ec2-user/"Kubernetes-CI-CD-Pipeline-main"
+            cd /home/ec2-user/Kubernetes-CI-CD-Pipeline-main
 
-            echo "===== CLEAN SYNC CODE ====="
+            echo "===== SYNC CODE ====="
             git fetch --all
             git reset --hard origin/main
 
-            echo "===== FIX PERMISSIONS (SAFE) ====="
+            echo "===== FIX PERMISSIONS ====="
             sudo chown -R ec2-user:ec2-user .
 
-            echo "===== DOCKER DEPLOY ====="
-            docker stop "kubernetes-ci-cd-pipeline-main" || true
-            docker rm "kubernetes-ci-cd-pipeline-main" || true
-            docker build -t "kubernetes-ci-cd-pipeline-main" .
-            docker run -d -p 80:80 --name "kubernetes-ci-cd-pipeline-main" "kubernetes-ci-cd-pipeline-main"
+            echo "===== BUILD DOCKER IMAGE ====="
+            docker build -t kubernetes-ci-cd-pipeline-main .
 
-            echo "===== KIND / K8S DEPLOY ====="
-            # Load Docker image into Kind cluster
-            kind load docker-image "kubernetes-ci-cd-pipeline-main"
+            echo "===== LOAD IMAGE INTO KIND ====="
+            kind load docker-image kubernetes-ci-cd-pipeline-main
 
-            # Apply Kubernetes manifests
-            kubectl apply -f k8s/deployment.yaml
-            kubectl apply -f k8s/service.yaml
+            echo "===== DEPLOY TO KUBERNETES ====="
+            kubectl apply -f k8s/
 
-            echo "===== VERIFY K8S ====="
+            echo "===== WAIT FOR ROLLOUT ====="
+            kubectl rollout status deployment/sip-calculator
+
+            echo "===== VERIFY ====="
             kubectl get pods
             kubectl get svc
-
-            echo "===== RUNNING DOCKER CONTAINERS ====="
-            docker ps
-            
-            
