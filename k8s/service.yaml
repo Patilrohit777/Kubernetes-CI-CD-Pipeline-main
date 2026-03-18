@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sip-calculator-service
+  name: kubernetes-ci-cd-pipeline-main
 spec:
   selector:
-    app: sip-calculator
+    app: kubernetes-ci-cd-pipeline-main
   ports:
     - protocol: TCP
       port: 80
