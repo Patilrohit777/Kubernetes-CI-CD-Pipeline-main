@@ -23,7 +23,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ec2-user/"Kubernetes-CI-CD-Pipeline-main"
+            cd /home/ec2-user/"kubernetes-ci-cd-pipeline-main"
 
             echo "===== CLEAN SYNC CODE ====="
             git fetch --all
@@ -33,14 +33,14 @@ jobs:
             sudo chown -R ec2-user:ec2-user .
 
             echo "===== DOCKER DEPLOY ====="
-            docker stop "Kubernetes-CI-CD-Pipeline-main" || true
-            docker rm "Kubernetes-CI-CD-Pipeline-main" || true
-            docker build -t "Kubernetes-CI-CD-Pipeline-main" .
-            docker run -d -p 80:80 --name "Kubernetes-CI-CD-Pipeline-main" "Kubernetes-CI-CD-Pipeline-main"
+            docker stop "kubernetes-ci-cd-pipeline-main" || true
+            docker rm "kubernetes-ci-cd-pipeline-main" || true
+            docker build -t "kubernetes-ci-cd-pipeline-main" .
+            docker run -d -p 80:80 --name "kubernetes-ci-cd-pipeline-main" "kubernetes-ci-cd-pipeline-main"
 
             echo "===== KIND / K8S DEPLOY ====="
             # Load Docker image into Kind cluster
-            kind load docker-image "Kubernetes-CI-CD-Pipeline-main"
+            kind load docker-image "kubernetes-ci-cd-pipeline-main"
 
             # Apply Kubernetes manifests
             kubectl apply -f k8s/deployment.yaml
