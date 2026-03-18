@@ -6,14 +6,14 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sip-calculator
+      app: kubernetes-ci-cd-pipeline-main
   template:
     metadata:
       labels:
-        app: sip-calculator
+        app: kubernetes-ci-cd-pipeline-main
     spec:
       containers:
         - name: sip-calculator
-          image: <YOUR_DOCKERHUB_USERNAME>/sip-calculator:latest
+          image: <YOUR_DOCKERHUB_USERNAME>/kubernetes-ci-cd-pipeline-main:latest
           ports:
             - containerPort: 80
