@@ -31,16 +31,16 @@ jobs:
             sudo chown -R ec2-user:ec2-user .
 
             echo "===== BUILD DOCKER IMAGE ====="
-            docker build -t kubernetes-ci-cd-pipeline-main .
+            docker build -t kubernetes-ci-cd-pipeline-main:latest .
 
             echo "===== LOAD IMAGE INTO KIND ====="
-            kind load docker-image kubernetes-ci-cd-pipeline-main
+            kind load docker-image kubernetes-ci-cd-pipeline-main:latest
 
             echo "===== DEPLOY TO KUBERNETES ====="
             kubectl apply -f k8s/
 
             echo "===== WAIT FOR ROLLOUT ====="
-            kubectl rollout status deployment/kubernetes-ci-cd-pipeline-main
+            kubectl rollout status deployment/sip-calculator
 
             echo "===== VERIFY ====="
             kubectl get pods
