@@ -23,7 +23,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ec2-user/"kubernetes-ci-cd-pipeline-main"
+            cd /home/ec2-user/"Kubernetes-CI-CD-Pipeline-main"
 
             echo "===== CLEAN SYNC CODE ====="
             git fetch --all
