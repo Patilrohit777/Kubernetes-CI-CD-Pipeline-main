@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: kubernetes-ci-cd-pipeline-main
-          image: <YOUR_DOCKERHUB_USERNAME>/kubernetes-ci-cd-pipeline-main:latest
+          image: patilr566/kubernetes-ci-cd-pipeline-main:latest
           ports:
             - containerPort: 80
